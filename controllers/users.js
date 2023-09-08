@@ -7,6 +7,17 @@ usersRouter.get('/', async(request, response) => {
     response.status(201).json(users)
 })
 
+usersRouter.get('/:username', async(request, response) => {
+    const username = request.params.username
+ 
+    const userByUsername = await User.findOne({username})
+
+    if(userByUsername === null) {
+        return response.status(401).send({error: 'no user found'})
+    }
+    response.status(201).json(userByUsername)
+})
+
 usersRouter.post('/', async(request, response) => {
     const {username, password} = request.body
 

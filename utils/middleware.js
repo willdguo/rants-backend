@@ -5,8 +5,10 @@ const User = require('../models/user')
 const tokenExtractor = (request, response, next) => {
 
     const auth = request.get('authorization')
+
     console.log('tokenExtractor:')
     console.log(auth)
+
     if (auth && auth.startsWith('Bearer')){
       request.token = auth.replace('Bearer ', '')
     }
@@ -31,6 +33,7 @@ async function userExtractor (request, response, next) {
     }
 
     next()
+
   } catch (error) {
     if(error instanceof jwt.JsonWebTokenError) {
       return response.status(401).json({error: 'invalid token'})
